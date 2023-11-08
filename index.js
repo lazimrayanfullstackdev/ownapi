@@ -59,7 +59,36 @@ app.post("/jokes", async (req, res)=>{
 
 //5. PUT a joke
 
+app.put("/jokes/:id", async(req,res)=>{
+  try{
+    const jokeID = req.params.id - 1;
+    jokes[jokeID].jokeText = req.body.text;
+    jokes[jokeID].jokeType = req.body.type;
+    console.log(jokes[jokeID]);
+    res.json(jokes[jokeID]);
+  }catch(error){
+    console.log("Error Writing Data");
+    console.error(error);
+  }
+})
+
 //6. PATCH a joke
+app.patch("/jokes/:id", async(req, res)=>{
+  try{
+    const jokeID = parseInt(req.params.id - 1);
+    if(req.body.text){
+      jokes[jokeID].jokeText = req.body.text;
+      console.log("Updated Joke");
+    }
+    if(req.body.type){
+      jokes[jokeID].jokeType= req.body.type;
+      console.log("Updated Joke Type");
+    }
+    res.json(jokes[jokeID]);
+  }catch(error){
+    console.log("Error Updating Data")
+  }
+})
 
 //7. DELETE Specific joke
 
