@@ -41,6 +41,21 @@ app.get("/filter", async(req,res)=>{
 })
 
 //4. POST a new joke
+app.post("/jokes", async (req, res)=>{
+  try{
+    const newJoke ={
+      id: jokes.length+1,
+      jokeText: req.body.text,
+      jokeType: req.body.type
+    }
+    await jokes.push(newJoke);
+    console.log(jokes.slice(-1));
+    res.json(newJoke);
+  }catch(error){
+    console.log("Error Posting Data");
+    console.error(error);
+  }
+})
 
 //5. PUT a joke
 
