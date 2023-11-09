@@ -92,7 +92,37 @@ app.patch("/jokes/:id", async(req, res)=>{
 
 //7. DELETE Specific joke
 
+app.delete("/jokes/:id", async(req, res)=>{
+  try{
+    const jokeId = parseInt(req.params.id);
+    const searchIndex = jokes.findIndex((joke)=> joke.id === jokeId);
+    if(searchIndex > -1){
+      jokes.splice(searchIndex, 1);
+      res.sendStatus(200);
+    }else{
+      res.sendStatus(404);
+      res.json({error: `Joke with id: ${jokeId} not found. No Jokes were deleted`});
+    }
+  }catch(error){
+    console.log("Error Deleting Data", error);
+  }
+})
+
 //8. DELETE All jokes
+
+app.delete("/all", async(req, res)=>{
+  try{
+    if(masterKey===req.query.key){
+      jokes.length = 0;
+      res.send("Deleted all Jokes :(");
+    }else{
+      res.send("You Lost your Key mate, Try again");
+    }
+  }catch(error){
+    console.log("Error Deleting Jokes", error);
+  }
+})
+
 
 app.listen(port, () => {
   console.log(`Successfully started server on port ${port}.`);
